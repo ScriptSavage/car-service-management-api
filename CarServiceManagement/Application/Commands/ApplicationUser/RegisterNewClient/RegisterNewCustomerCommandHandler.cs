@@ -1,28 +1,33 @@
-﻿using Infrastructure.Helpers;
+﻿using Infrastructure.Entities;
+using Infrastructure.Helpers;
+using Infrastructure.Repositories.CustomerRepo;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace Application.Commands.ApplicationUser.RegisterNewUser;
+namespace Application.Commands.ApplicationUser.RegisterNewClient;
 
-public class RegisterNewUserCommandHandler : IRequestHandler<RegisterNewUserCommand, long>
+public class RegisterNewCustomerCommandHandler : IRequestHandler<RegisterNewCustomerCommand, long>
 {
     
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPasswordHasher<Infrastructure.Entities.ApplicationUser> _passwordHasher;
     private readonly UserManager<Infrastructure.Entities.ApplicationUser> _userManager;
+    private readonly ICustomerRepository _customerRepository;
   
 
-    public RegisterNewUserCommandHandler(IUnitOfWork unitOfWork,
+    public RegisterNewCustomerCommandHandler(IUnitOfWork unitOfWork,
+        ICustomerRepository  customerRepository,
         IPasswordHasher<Infrastructure.Entities.ApplicationUser> passwordHasher,
         UserManager<Infrastructure.Entities.ApplicationUser> userManager)
     {
         _unitOfWork = unitOfWork;
+        _customerRepository = customerRepository;
         _passwordHasher = passwordHasher;
         _userManager = userManager;
     }
 
 
-    public async Task<long> Handle(RegisterNewUserCommand request, CancellationToken cancellationToken)
+    public async Task<long> Handle(RegisterNewCustomerCommand request, CancellationToken cancellationToken)
     {
         var transaction = await _unitOfWork.BeginTransactionAsync();
         
@@ -37,6 +42,17 @@ public class RegisterNewUserCommandHandler : IRequestHandler<RegisterNewUserComm
                 PhoneNumber = request.RegisterNewUserDto.PhoneNumber
             };
 
+            var newCustomer = new Customer
+            {
+                PhoneNumber = request.RegisterNewUserDto.PhoneNumber,
+                FirstName = request.RegisterNewUserDto.FirstName,
+                LastName = request.RegisterNewUserDto.LastName,
+                Email = request.RegisterNewUserDto.Email,
+                ApplicationUserId = newApplicationUser.Id,
+                ApplicationUser = newApplicationUser
+            };
+            
+
 
             if (request.RegisterNewUserDto.Password != request.RegisterNewUserDto.ConfirmPassword)
             {
@@ -47,6 +63,7 @@ public class RegisterNewUserCommandHandler : IRequestHandler<RegisterNewUserComm
             newApplicationUser.PasswordHash =  hashPassword;
 
             await _userManager.CreateAsync(newApplicationUser);
+            await _customerRepository.AddAsync(newCustomer);
             await _userManager.AddToRoleAsync(newApplicationUser, "User");
             
             await _unitOfWork.SaveChangesAsync();
