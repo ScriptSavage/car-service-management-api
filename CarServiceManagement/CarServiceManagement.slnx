@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="Api/Api.csproj" />
-  <Project Path="Application\Application.csproj" Type="C#" />
+  <Project Path="Application\Application.csproj" />
   <Project Path="Infrastructure/Infrastructure.csproj" />
+  <Project Path="Tests/Tests.csproj" />
 </Solution>
