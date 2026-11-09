@@ -10,4 +10,6 @@ public class ApplicationUser : IdentityUser<long>
     public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
 
     public DateTime? LastPasswordChangedAt { get; set; }
+
+    public Customer? Customer { get; set; }
 }

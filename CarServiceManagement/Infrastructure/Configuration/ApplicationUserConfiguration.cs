@@ -24,5 +24,11 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
             .IsRequired();
         
         builder.HasIndex(e=>e.Email).IsUnique();
+        
+        
+        builder.HasOne(e=>e.Customer)
+            .WithOne(e=>e.ApplicationUser)
+            .HasForeignKey<Customer>(e => e.ApplicationUserId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
