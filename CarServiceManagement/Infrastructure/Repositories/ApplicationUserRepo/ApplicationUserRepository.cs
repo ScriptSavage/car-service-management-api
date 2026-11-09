@@ -22,4 +22,9 @@ public class ApplicationUserRepository : IApplicationUserRepository
     {
         return await _context.ApplicationUsers.AnyAsync(e => e.Email == email);
     }
+
+    public async Task<IEnumerable<ApplicationUser>> GetAllUsers()
+    {
+        return await _context.ApplicationUsers.ToListAsync();
+    }
 }
