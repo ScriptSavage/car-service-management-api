@@ -1,4 +1,6 @@
-﻿using Application.Commands.ApplicationUser.RegisterNewUser;
+﻿using Application.Commands.ApplicationUser.RegisterNewClient;
+using Application.Queries.ApplicationUser.GetAllUsers;
+using Application.Queries.Customers.GetCustomerById;
 using Infrastructure.Database;
 using Infrastructure.Entities;
 using Infrastructure.Extensions;
@@ -27,7 +29,9 @@ public static class ApplicationExtensions
             .AddEntityFrameworkStores<CarServiceContext>();
 
 
-        services.AddMediatR(typeof(RegisterNewUserCommand));
+        services.AddMediatR(typeof(RegisterNewCustomerCommand));
+        services.AddMediatR(typeof(GetAllUserQuery));
+        services.AddMediatR(typeof(GetCustomerByIdQuery));
 
         
     }
