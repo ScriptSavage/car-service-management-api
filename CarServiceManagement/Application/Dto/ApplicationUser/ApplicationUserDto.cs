@@ -11,6 +11,12 @@ public static class ApplicationUserDto
         string ConfirmPassword,
         string PhoneNumber);
 
+
+    public record LoginRequest(
+        string UserName,
+        string Password);
+    
+    
     public record Response(
         long UserId,
         string UserName, 
@@ -18,5 +24,5 @@ public static class ApplicationUserDto
         string LastName, 
         string Email,
         string PhoneNumber);
-
+    
 }
