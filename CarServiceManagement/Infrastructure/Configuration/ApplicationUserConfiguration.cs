@@ -25,6 +25,9 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
         
         builder.HasIndex(e=>e.Email).IsUnique();
         
+        builder.HasIndex(e=>e.UserName)
+            .IsUnique();
+        
         
         builder.HasOne(e=>e.Customer)
             .WithOne(e=>e.ApplicationUser)
