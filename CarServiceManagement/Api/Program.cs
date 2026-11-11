@@ -1,4 +1,8 @@
+using Api.Middlewares;
 using Application.Extensions;
+using Application.Seeders;
+using Infrastructure.Entities;
+using Microsoft.AspNetCore.Identity;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 builder.Services.AddApplicationLayer(builder.Configuration);
+builder.Services.AddScoped<GlobalErrorHandlingMiddleware>();
+builder.Services.AddJwtConfiguration(builder.Configuration);
 
 var app = builder.Build();
 
@@ -18,7 +24,21 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 }
 
+await using (var scope = app.Services.CreateAsyncScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<long>>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    
+    await AdminSeeder.AddAdmin(userManager,builder.Configuration);
+
+    await RoleSeeder.SeedRolesAsync(roleManager);
+}
+
+
 app.UseHttpsRedirection();
+app.UseMiddleware<GlobalErrorHandlingMiddleware>();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
