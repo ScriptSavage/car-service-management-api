@@ -12,23 +12,19 @@ public class GlobalErrorHandlingMiddleware : IMiddleware
         }
         catch (NotFoundException notFoundException)
         {
-            Console.WriteLine(notFoundException.Message);
             context.Response.StatusCode = StatusCodes.Status404NotFound;
-
         }
         catch (InvalidOperationException invalidOperationException)
         {
-            Console.WriteLine(invalidOperationException.Message);
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
         }
         catch (UnauthorizedAccessException unauthorizedAccessException)
         {
-            Console.WriteLine(unauthorizedAccessException.Message);
             context.Response.StatusCode = StatusCodes.Status403Forbidden;
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             throw;
         }
     }
