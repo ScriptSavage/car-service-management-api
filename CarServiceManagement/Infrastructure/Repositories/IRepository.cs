@@ -1,6 +1,4 @@
-﻿using Infrastructure.Entities;
-
-namespace Infrastructure.Repositories;
+﻿namespace Infrastructure.Repositories;
 
 public interface IRepository<T> where T : class
 {
@@ -8,5 +6,5 @@ public interface IRepository<T> where T : class
    
    Task<IEnumerable<T>> GetAllAsync();
    
-   Task<Customer?> GetByIdAsync(long id);
+   Task<T?> GetByIdAsync(long id);
 }
