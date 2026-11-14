@@ -2,6 +2,7 @@
 using Infrastructure.Helpers;
 using Infrastructure.Repositories.ApplicationUserRepo;
 using Infrastructure.Repositories.CustomerRepo;
+using Infrastructure.Repositories.VehicleRepo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +28,7 @@ public static class InfrastructureExtension
     
         services.AddScoped<IApplicationUserRepository,ApplicationUserRepository>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IVehicleRepository, VehicleRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }
