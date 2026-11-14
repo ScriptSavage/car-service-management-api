@@ -10,6 +10,8 @@ public class CarServiceContext : IdentityDbContext<ApplicationUser, IdentityRole
 
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     public DbSet<Customer> Customers { get; set; }
+
+    public DbSet<Vehicle> Vehicles { get; set; }
     
     public CarServiceContext(DbContextOptions<CarServiceContext> options) : base(options)
     {
