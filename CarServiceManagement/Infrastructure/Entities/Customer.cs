@@ -11,4 +11,6 @@ public class Customer
 
     public ApplicationUser? ApplicationUser { get; set; }
     public long? ApplicationUserId { get; set; }
+
+    public ICollection<Vehicle> Vehicles { get; set; } = [];
 }

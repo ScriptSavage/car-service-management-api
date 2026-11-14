@@ -30,5 +30,9 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasMaxLength(250)
             .IsRequired();
         
+        builder.HasMany(e=>e.Vehicles)
+            .WithOne(c=>c.Customer)
+            .HasForeignKey(f=>f.CustomerId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
