@@ -28,10 +28,9 @@ await using (var scope = app.Services.CreateAsyncScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<long>>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    await RoleSeeder.SeedRolesAsync(roleManager);
     
     await AdminSeeder.AddAdmin(userManager,builder.Configuration);
-
-    await RoleSeeder.SeedRolesAsync(roleManager);
 }
 
 
