@@ -1,4 +1,5 @@
 ﻿using Application.Commands.ApplicationUser.RegisterNewClient;
+using Application.Commands.Vehicle.CreateVehicle;
 using Application.Queries.ApplicationUser.GetAllUsers;
 using Application.Queries.Customers.GetCustomerById;
 using Infrastructure.Database;
@@ -30,6 +31,8 @@ public static class ApplicationExtensions
 
 
         services.AddMediatR(typeof(RegisterNewCustomerCommand));
+        services.AddMediatR(typeof(CreateVehicleCommand));
+        
         services.AddMediatR(typeof(GetAllUserQuery));
         services.AddMediatR(typeof(GetCustomerByIdQuery));
 
