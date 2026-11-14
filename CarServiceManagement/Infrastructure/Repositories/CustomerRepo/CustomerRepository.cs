@@ -27,4 +27,10 @@ public class CustomerRepository : ICustomerRepository
     {
         return await _carServiceContext.Customers.FindAsync(id);
     }
+
+    public async Task<Customer?> FindCustomerByApplicationUserId(long userId)
+    {
+        return await  _carServiceContext.Customers
+            .FirstOrDefaultAsync(e=>e.ApplicationUserId == userId);
+    }
 }
